@@ -105,7 +105,4 @@ El script:
   dotnet watch --project backend/Tareas.API/Tareas.API.csproj
   ```
 
-## Pruebas
-Todavía no se incluyen pruebas automatizadas. Se recomienda añadir pruebas unitarias en `Tareas.Application` y pruebas de integración para los endpoints críticos.
-
 
