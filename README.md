@@ -1,27 +1,84 @@
 # Tareas Monorepo
 
+<div align="center">
+
+![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-Minimal%20API-5C2D91?style=for-the-badge&logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![React 18](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=20232A)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.4-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Desktop-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-9-F69220?style=for-the-badge&logo=pnpm&logoColor=white)
+
+</div>
+
 Aplicación de gestión de tareas compuesta por un backend en ASP.NET Core Minimal API, un frontend en React + Vite y una base de datos SQL Server desplegada mediante Docker. El objetivo es ofrecer un flujo completo para crear, listar, actualizar y eliminar tareas.
 
-## Tecnologías principales
-- Backend: .NET 8, ASP.NET Core Minimal API, C#
-- Frontend: React 18, TypeScript, Vite
-- Base de datos: SQL Server 2022 (contenedor Docker)
-- Gestión de datos: Repositorio ADO.NET propio
+## 🧱 Arquitectura
 
-## Estructura del repositorio
+```text
+┌──────────────────────────────────────────────┐
+│                    Cliente                   │
+│        React 18 · Vite · TypeScript          │
+└──────────────────────────┬───────────────────┘
+                           │ HTTP (REST)
+┌──────────────────────────▼───────────────────┐
+│                Backend API (.NET 8)          │
+│ Minimal APIs · Validaciones · DTOs           │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │      Application Layer (Servicios)     │◄─┼─ Orquestación de casos de uso
+│  └────────────────────────────────────────┘  │
+│  ┌────────────────────────────────────────┐  │
+│  │     Infrastructure Layer (ADO.NET)     │──┼─ Acceso a datos y repositorios
+│  └────────────────────────────────────────┘  │
+└──────────────────────────┬───────────────────┘
+                           │ T-SQL / TCP
+┌──────────────────────────▼───────────────────┐
+│           SQL Server 2022 (Docker)           │
+│  Tablas · Stored Procedures · Scripts SQL    │
+└──────────────────────────────────────────────┘
+```
+
+## 🖼️ Vistas rápidas
+
+<div align="center">
+
+<img src="./Screenshot 2025-11-09 at 10.25.40 am.png" alt="Listado de tareas" width="30%" style="margin:0 1rem;">
+<img src="./Screenshot 2025-11-09 at 10.30.56 am.png" alt="Formulario de tareas" width="30%" style="margin:0 1rem;">
+<img src="./Screenshot 2025-11-09 at 10.47.34 am.png" alt="Detalle de tarea" width="30%" style="margin:0 1rem;">
+
+</div>
+
+<div align="center">
+
+<img src="./Screenshot 2025-11-09 at 10.47.47 am.png" alt="Modal de confirmación" width="30%" style="margin:0 1rem;">
+<img src="./Screenshot 2025-11-09 at 10.50.09 am.png" alt="Estado general del tablero" width="30%" style="margin:0 1rem;">
+
+</div>
+
+## 🚀 Tecnologías principales
+- 🛠️ Backend: .NET 8, ASP.NET Core Minimal API, C#
+- 💻 Frontend: React 18, TypeScript, Vite
+- 🗄️ Base de datos: SQL Server 2022 (contenedor Docker)
+- 📦 Gestión de datos: Repositorio ADO.NET propio
+
+## 🗂️ Estructura del repositorio
 - `backend/`: solución .Net con clean arquitecture  `Tareas.API`, `Tareas.Application`, `Tareas.Infrastructure` y `Tareas.Domain`.
 - `frontend/`: aplicación React + Vite que consume los endpoints del backend.
 - `docker/`: recursos para el contenedor de SQL Server (`docker-compose.yml`, `mssql.Dockerfile`).
 - `scripts_db/`: scripts SQL para crear el esquema (`001_create_tasks_schema.sql`).
 
-## Requisitos previos
+## ✅ Requisitos previos
 - .NET SDK 8.0+
 - Node.js 18+ con Corepack habilitado (`corepack enable`) para usar pnpm
 - pnpm 9+
 - Docker Desktop (incluye Docker Compose) en ejecución
 - `sqlcmd` (incluido en el contenedor de SQL Server o instalable localmente) para aplicar scripts manuales
 
-## Configuración de variables de entorno
+## 🔐 Configuración de variables de entorno
 Centraliza las variables en un archivo `.env` en la raíz del repositorio. Ejemplo:
 
 ```
@@ -43,14 +100,14 @@ Antes de levantar los servicios:
    - Backend: el archivo `.env` es leído automáticamente al ejecutar `dotnet run` (gracias a `Env.TraversePath()`).
    - Frontend: Vite lee variables con prefijo `VITE_`; si no se aplican automáticamente, crea `frontend/.env` con `VITE_API_BASE_URL`.
 
-## Inicio rápido con script
+## ⚡ Inicio rápido con script
 En la raíz hay un script multiplataforma que levanta Docker, backend y frontend simultáneamente:
 
 ```bash
 node start-monorepo.js
 ```
 
-En sistemas Unix también puedes ejecutarlo directamente (`chmod +x start-monorepo.js && ./start-monorepo.js`). En Windows funciona con `node start-monorepo.js` o `.\start-monorepo.js`.
+Ejecuta directamente (`chmod +x start-monorepo.js && ./start-monorepo.js`). En Windows funciona con `node start-monorepo.js` o `.\start-monorepo.js`.
 
 El script:
 - Carga variables desde `.env` si está disponible.
@@ -60,7 +117,7 @@ El script:
 - Inicia `pnpm dev` en `frontend`.
 - Escucha `Ctrl+C` para detener procesos y ejecutar `docker compose down`.
 
-## Puesta en marcha local
+## 🧪 Puesta en marcha local
 
 1. **Base de datos**
    ```bash
@@ -91,7 +148,7 @@ El script:
    - Abre el navegador en `http://localhost:5173` y crea tareas.
    - Swagger (`http://localhost:5062/swagger`) permite probar los endpoints manualmente.
 
-## Scripts útiles
+## 🧰 Scripts útiles
 - Apagar y limpiar la base de datos:
   ```bash
   docker compose -f docker/docker-compose.yml down -v
