@@ -1,0 +1,27 @@
+# Build output
+**/bin/
+**/obj/
+
+# Rider / Visual Studio
+.vs/
+*.user
+*.suo
+
+# VS Code
+.vscode/
+
+# Environment files
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Others
+Thumbs.db
+*.swp
+
+
